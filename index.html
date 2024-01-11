@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        :root {
+    --primary: rgb(72, 155, 79);
+    --darkdark: #111827;
+    --light: #F3F4F6;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+    color: var(--light);
+    background-image: url(img.jpg);
+    background-size: cover;
+    background-position: center;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.watch {
+    text-align: center;
+    background-color: var(--darkdark);
+    width: 100%;
+    max-width: 360px;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.time {
+    font-size: 5rem;
+    font-weight: 300;
+    margin-bottom: 16px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls button {
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    user-select: none;
+    cursor: pointer;
+    color: var(--light);
+    font-size: 1.125rem;
+    background-color: var(--primary);
+    margin: 0 8px;
+    padding: 8px 16px;
+    transition: 0.4s;
+}
+
+.controls button:hover {
+    opacity: 0.7;
+}
+
+.controls button:active {
+    background-color: var(--dark);
+}
+
+
+        </style>
+</head>
+<body>
+    <div class="watch">
+        <div class="time">
+            00:00:00
+        </div>
+        <div class="controls">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const time_e1 = document.querySelector('.watch .time');
+        const start_btn = document.getElementById('start');
+        const stop_btn = document.getElementById("stop");
+        const reset_btn = document.getElementById("reset");
+
+        let seconds = 0;
+        let interval = null;
+
+        start_btn.addEventListener('click', start);
+        stop_btn.addEventListener("click", stop);
+        reset_btn.addEventListener("click", reset);
+
+        function timer() {
+            seconds++;
+
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds - (hrs * 3600)) / 60);
+            let secs = seconds % 60;
+
+            if (secs < 10) secs = '0' + secs;
+            if (mins < 10) mins = "0" + mins;
+            if (hrs < 10) hrs = "0" + hrs;
+
+            time_e1.innerHTML = `${hrs}:${mins}:${secs}`;
+        }
+
+        function start() {
+            if (interval) {
+                return;
+            }
+            interval = setInterval(timer, 1000);
+        }
+
+        function stop() {
+            clearInterval(interval);
+            interval = null;
+        }
+
+        function reset() {
+            stop();
+            seconds = 0;
+            time_e1.innerText = '00:00:00';
+        }
+    </script>
+</body>
+</html>
